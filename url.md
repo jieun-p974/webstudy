@@ -4,4 +4,4 @@
 - opentutorials.org > host(domain)
 - 3000 >port
 - main > path
-- id=HTML&page=12 > query string
+- ?id=HTML&page=12 > query string(시작은 무조건 '?')
