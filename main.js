@@ -2,9 +2,11 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
+var template = require('./lib/template.js')
+
 //리팩토링을 거쳐 깔끔한 코드를 만든다.
 //반복되는 코드를 객체화, 함수화하면 된다.
-var template = {
+/*var template = {
   HTML:function (title, list, body, control){
     return `
     <!doctype html>
@@ -31,7 +33,7 @@ var template = {
     list = list+'</ul>';
     return list;
   }
-}
+}*/
 
 var app = http.createServer(function(request,response){
     var _url = request.url;
