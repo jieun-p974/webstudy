@@ -4,6 +4,7 @@ var url = require('url');
 var qs = require('querystring');
 var template = require('./lib/template.js')
 var path = require('path');
+var sanitizeHtml = require('sanitize-html');
 
 //리팩토링을 거쳐 깔끔한 코드를 만든다.
 //반복되는 코드를 객체화, 함수화하면 된다.
@@ -70,11 +71,14 @@ var app = http.createServer(function(request,response){
 
           fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
             var title = queryData.id;
+            var sanitizedTitle = sanitizeHtml(title);
+            //h1 태그는 허용해준다고 옵션을 선택할 수 있음
+            var sanitizedDescription = sanitizeHtml(description,{allowedTags:['h1']});
             var list = template.list(filelist);
-            var html = template.HTML(title, list,
-              `<h2>${title}</h2>${description}`,
-              `<a href="/create">create</a> <a href="/update?id=${title}">update</a> <form action="delete_process" method="post">
-                <input type="hidden" name="id" value="${title}">
+            var html = template.HTML(sanitizedTitle, list,
+              `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
+              `<a href="/create">create</a> <a href="/update?id=${sanitizedTitle}">update</a> <form action="delete_process" method="post">
+                <input type="hidden" name="id" value="${sanitizedTitle}">
                 <input type="submit" value="delete">
               </form>`
             );

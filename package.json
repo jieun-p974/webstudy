@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "- 깃이랑 아톰이랑 연동하기 확인",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jieun-p974/webstudy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jieun-p974/webstudy/issues"
+  },
+  "homepage": "https://github.com/jieun-p974/webstudy#readme",
+  "dependencies": {
+    "sanitize-html": "^2.6.1"
+  }
+}
