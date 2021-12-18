@@ -42,7 +42,7 @@ var app = http.createServer(function(request,response){
             `<a href="/create">create</a>`
           );
           response.writeHead(200);
-          response.end('Success');
+          response.end(html);
         });
       } else {
         fs.readdir('./data', function(error, filelist){
