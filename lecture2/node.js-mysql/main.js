@@ -5,6 +5,14 @@ var qs = require('querystring');
 var template = require('./lib/template.js');
 var path = require('path');
 var sanitizeHtml = require('sanitize-html');
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'nodejs',
+  password : '11223344',
+  database : 'study'
+});
+connection.connect();
 
 var app = http.createServer(function(request,response){
     var _url = request.url;
@@ -12,7 +20,7 @@ var app = http.createServer(function(request,response){
     var pathname = url.parse(_url, true).pathname;
     if(pathname === '/'){
       if(queryData.id === undefined){
-        fs.readdir('./data', function(error, filelist){
+        /*fs.readdir('./data', function(error, filelist){
           //제일 처음 페이지
           var title = 'Welcome';
           var description = 'Hello, Node.js';
@@ -23,6 +31,18 @@ var app = http.createServer(function(request,response){
           );
           response.writeHead(200);
           response.end(html);
+        });
+        */
+        connection.query(`SELECT * FROM topic`, function(error,topics){
+          var title = 'Welcome';
+          var description = 'Hello, Node.js';
+          var list = template.list(topics);
+          var html = template.HTML(title, list,
+            `<h2>${title}</h2>${description}`,
+            `<a href="/create">create</a>`
+          );
+          response.writeHead(200);
+          response.end('Success');
         });
       } else {
         fs.readdir('./data', function(error, filelist){
