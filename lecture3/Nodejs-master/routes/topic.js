@@ -5,6 +5,28 @@ var path = require('path');
 var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var template = require('../lib/template.js');
+var cookie = require('cookie');
+
+function authIsOwner(request, response) {
+  var isOwner =false;
+  var cookies = {};
+  if (request.headers.cookie){
+    var cookies = cookie.parse(request.headers.cookie);
+  }
+  if(cookies.email === 'egoing777@gamil.com' && cookies.password === '1234'){
+    isOwner = true;
+  }
+  return isOwner;
+}
+function authStatusUI(request, response){
+  var authStatusUI = '<a href="/login">login</a>';
+  if (authIsOwner(request,response)){
+    authStatusUI = '<a href="/logout_process">logout</a>'
+  }
+  return authStatusUI;
+}
+
+
 
 router.get('/create', function(request, response){
   var title = 'WEB - create';
@@ -19,7 +41,7 @@ router.get('/create', function(request, response){
         <input type="submit">
       </p>
     </form>
-  `, '');
+  `,authStatusUI(request,response));
   response.send(html);
 });
 
@@ -67,7 +89,7 @@ router.get('/update/:pageId', function(request, response){
         </p>
       </form>
       `,
-      `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`
+      `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`,authStatusUI(request,response)
     );
     response.send(html);
   });
@@ -113,10 +135,12 @@ router.get('/:pageId', function(request, response, next) {
           <form action="/topic/delete_process" method="post">
             <input type="hidden" name="id" value="${sanitizedTitle}">
             <input type="submit" value="delete">
-          </form>`
+          </form>`,authStatusUI(request,response)
       );
       response.send(html);
     }
   });
 });
+
+
 module.exports = router;

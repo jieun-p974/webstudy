@@ -7,12 +7,11 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 //compression load
 var compression = require('compression');
-//보안, 안전하게 
+//보안, 안전하게
 var helmet = require('helmet');
 app.use(helmet());
 var indexRouter = require('./routes/index');
 var topicRouter = require('./routes/topic');
-
 
 //정적인 파일을 서비스하는 방법
 //public디렉토리에서 사진을 찾음
@@ -35,6 +34,7 @@ app.use('*',function(request, response, next){
 });
 
 app.use('/', indexRouter);
+
 //'/topic'으로 시작하는 주소에 topicRouter라는 미들웨어를 적용하겠다는 뜻
 app.use('/topic', topicRouter);
 
