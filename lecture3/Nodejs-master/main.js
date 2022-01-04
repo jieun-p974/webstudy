@@ -7,7 +7,7 @@ var helmet = require('helmet')
 app.use(helmet());
 var session = require('express-session')
 var FileStore = require('session-file-store')(session)
-
+var flash = require('connect-flash');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +19,10 @@ app.use(session({
   store:new FileStore()
 }))
 
+app.use(flash());
+
+var passport = require('./lib/passport')(app);
+
 app.get('*', function(request, response, next){
   fs.readdir('./data', function(error, filelist){
     request.list = filelist;
@@ -28,7 +32,7 @@ app.get('*', function(request, response, next){
 
 var indexRouter = require('./routes/index');
 var topicRouter = require('./routes/topic');
-var authRouter = require('./routes/auth');
+var authRouter = require('./routes/auth')(passport);
 
 app.use('/', indexRouter);
 app.use('/topic', topicRouter);
