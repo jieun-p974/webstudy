@@ -6,8 +6,11 @@ var auth = require('../lib/auth');
 router.get('/', function(request, response) {
   var fmsg = request.flash();
     var feedback = '';
-    if(fmsg.success){
-      feedback = fmsg.success[0];
+    if (fmsg.success) {
+    feedback = fmsg.success[0];
+    }
+    else if (fmsg.error) {
+    feedback = fmsg.error[0];
     }
 
   var title = 'Welcome';
